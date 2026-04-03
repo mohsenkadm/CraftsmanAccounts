@@ -1,0 +1,58 @@
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+bld/
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+## Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.rsuser
+
+## NuGet
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nupkg
+**/packages/repositories.config
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## ASP.NET
+ScaffoldingReadMe.txt
+
+## publish output
+*.publish.xml
+web.*.publish.xml
+
+## Rider
+.idea/
+*.sln.iml
+
+## JetBrains
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+## Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+## macOS
+.DS_Store
+
+## User secrets
+secrets.json

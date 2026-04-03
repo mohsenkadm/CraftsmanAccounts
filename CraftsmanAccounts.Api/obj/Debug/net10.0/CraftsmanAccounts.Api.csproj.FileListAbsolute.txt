@@ -168,3 +168,4 @@ d:\CraftsmanAccounts\CraftsmanAccounts\CraftsmanAccounts.Api\bin\Debug\net10.0\S
 d:\CraftsmanAccounts\CraftsmanAccounts\CraftsmanAccounts.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 d:\CraftsmanAccounts\CraftsmanAccounts\CraftsmanAccounts.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 d:\CraftsmanAccounts\CraftsmanAccounts\CraftsmanAccounts.Api\obj\Debug\net10.0\CraftsmanAccounts.Api.sourcelink.json
+D:\CraftsmanAccounts\CraftsmanAccounts\CraftsmanAccounts.Api\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

@@ -1,7 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\CraftsmanAccounts\\CraftsmanAccounts\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{75EC21DA-D862-E1D8-9264-66B07EF1C930}|CraftsmanAccounts.Api\\CraftsmanAccounts.Api.csproj|d:\\craftsmanaccounts\\craftsmanaccounts\\craftsmanaccounts.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{75EC21DA-D862-E1D8-9264-66B07EF1C930}|CraftsmanAccounts.Api\\CraftsmanAccounts.Api.csproj|solutionrelative:craftsmanaccounts.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,6 +55,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{13b29bd0-3807-335c-9cad-ba55364c29cb}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Api\\Program.cs",
+              "RelativeDocumentMoniker": "CraftsmanAccounts.Api\\Program.cs",
+              "ToolTip": "D:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Api\\Program.cs",
+              "RelativeToolTip": "CraftsmanAccounts.Api\\Program.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAAGEAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-03T12:49:58.326Z",
+              "EditorCaption": ""
             }
           ]
         }

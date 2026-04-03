@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rV+m3NnE6to=",
+  "dgSpecHash": "Da1aUjiOcAw=",
   "success": true,
-  "projectFilePath": "d:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Application\\CraftsmanAccounts.Application.csproj",
+  "projectFilePath": "D:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Application\\CraftsmanAccounts.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mohse\\.nuget\\packages\\fluentvalidation\\12.1.1\\fluentvalidation.12.1.1.nupkg.sha512",
     "C:\\Users\\mohse\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\12.1.1\\fluentvalidation.dependencyinjectionextensions.12.1.1.nupkg.sha512",

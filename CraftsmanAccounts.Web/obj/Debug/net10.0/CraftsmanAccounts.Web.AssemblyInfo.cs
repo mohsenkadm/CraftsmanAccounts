@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CraftsmanAccounts.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5f7f5aaf9c40aab953730b49f6ab210569189831")]
 [assembly: System.Reflection.AssemblyProductAttribute("CraftsmanAccounts.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CraftsmanAccounts.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

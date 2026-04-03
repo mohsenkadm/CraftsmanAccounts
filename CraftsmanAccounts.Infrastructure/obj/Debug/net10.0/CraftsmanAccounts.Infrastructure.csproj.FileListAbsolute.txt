@@ -17,3 +17,4 @@ D:\CraftsmanAccounts\CraftsmanAccounts\CraftsmanAccounts.Infrastructure\obj\Debu
 D:\CraftsmanAccounts\CraftsmanAccounts\CraftsmanAccounts.Infrastructure\obj\Debug\net10.0\CraftsmanAccounts.Infrastructure.pdb
 D:\CraftsmanAccounts\CraftsmanAccounts\CraftsmanAccounts.Infrastructure\obj\Debug\net10.0\CraftsmanAccounts.Infrastructure.genruntimeconfig.cache
 D:\CraftsmanAccounts\CraftsmanAccounts\CraftsmanAccounts.Infrastructure\obj\Debug\net10.0\ref\CraftsmanAccounts.Infrastructure.dll
+d:\CraftsmanAccounts\CraftsmanAccounts\CraftsmanAccounts.Infrastructure\obj\Debug\net10.0\CraftsmanAccounts.Infrastructure.sourcelink.json

@@ -3653,11 +3653,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Api\\CraftsmanAccounts.Api.csproj",
+      "projectUniqueName": "d:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Api\\CraftsmanAccounts.Api.csproj",
       "projectName": "CraftsmanAccounts.Api",
-      "projectPath": "D:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Api\\CraftsmanAccounts.Api.csproj",
+      "projectPath": "d:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Api\\CraftsmanAccounts.Api.csproj",
       "packagesPath": "C:\\Users\\mohse\\.nuget\\packages\\",
-      "outputPath": "D:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Api\\obj\\",
+      "outputPath": "d:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3679,11 +3679,11 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "projectReferences": {
-            "D:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Application\\CraftsmanAccounts.Application.csproj": {
-              "projectPath": "D:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Application\\CraftsmanAccounts.Application.csproj"
+            "d:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Application\\CraftsmanAccounts.Application.csproj": {
+              "projectPath": "d:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Application\\CraftsmanAccounts.Application.csproj"
             },
-            "D:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Infrastructure\\CraftsmanAccounts.Infrastructure.csproj": {
-              "projectPath": "D:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Infrastructure\\CraftsmanAccounts.Infrastructure.csproj"
+            "d:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Infrastructure\\CraftsmanAccounts.Infrastructure.csproj": {
+              "projectPath": "d:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Infrastructure\\CraftsmanAccounts.Infrastructure.csproj"
             }
           }
         }

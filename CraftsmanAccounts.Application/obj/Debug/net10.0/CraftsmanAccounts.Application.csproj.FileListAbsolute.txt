@@ -13,3 +13,4 @@ D:\CraftsmanAccounts\CraftsmanAccounts\CraftsmanAccounts.Application\obj\Debug\n
 D:\CraftsmanAccounts\CraftsmanAccounts\CraftsmanAccounts.Application\obj\Debug\net10.0\refint\CraftsmanAccounts.Application.dll
 D:\CraftsmanAccounts\CraftsmanAccounts\CraftsmanAccounts.Application\obj\Debug\net10.0\CraftsmanAccounts.Application.pdb
 D:\CraftsmanAccounts\CraftsmanAccounts\CraftsmanAccounts.Application\obj\Debug\net10.0\ref\CraftsmanAccounts.Application.dll
+d:\CraftsmanAccounts\CraftsmanAccounts\CraftsmanAccounts.Application\obj\Debug\net10.0\CraftsmanAccounts.Application.sourcelink.json

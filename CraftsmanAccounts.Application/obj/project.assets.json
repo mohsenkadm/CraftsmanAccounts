@@ -629,11 +629,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Application\\CraftsmanAccounts.Application.csproj",
+      "projectUniqueName": "d:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Application\\CraftsmanAccounts.Application.csproj",
       "projectName": "CraftsmanAccounts.Application",
-      "projectPath": "D:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Application\\CraftsmanAccounts.Application.csproj",
+      "projectPath": "d:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Application\\CraftsmanAccounts.Application.csproj",
       "packagesPath": "C:\\Users\\mohse\\.nuget\\packages\\",
-      "outputPath": "D:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Application\\obj\\",
+      "outputPath": "d:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Application\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -655,8 +655,8 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "projectReferences": {
-            "D:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Domain\\CraftsmanAccounts.Domain.csproj": {
-              "projectPath": "D:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Domain\\CraftsmanAccounts.Domain.csproj"
+            "d:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Domain\\CraftsmanAccounts.Domain.csproj": {
+              "projectPath": "d:\\CraftsmanAccounts\\CraftsmanAccounts\\CraftsmanAccounts.Domain\\CraftsmanAccounts.Domain.csproj"
             }
           }
         }

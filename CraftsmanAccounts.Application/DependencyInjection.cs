@@ -25,6 +25,7 @@ public static class DependencyInjection
         services.AddScoped<IUserManagementService, UserManagementService>();
         services.AddScoped<IUserSubscriptionManagementService, UserSubscriptionManagementService>();
         services.AddScoped<IActivityLogService, ActivityLogService>();
+        services.AddScoped<IDashboardService, DashboardService>();
         return services;
     }
 }

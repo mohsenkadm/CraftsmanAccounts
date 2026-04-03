@@ -9,3 +9,4 @@ D:\CraftsmanAccounts\CraftsmanAccounts\CraftsmanAccounts.Domain\obj\Debug\net10.
 D:\CraftsmanAccounts\CraftsmanAccounts\CraftsmanAccounts.Domain\obj\Debug\net10.0\refint\CraftsmanAccounts.Domain.dll
 D:\CraftsmanAccounts\CraftsmanAccounts\CraftsmanAccounts.Domain\obj\Debug\net10.0\CraftsmanAccounts.Domain.pdb
 D:\CraftsmanAccounts\CraftsmanAccounts\CraftsmanAccounts.Domain\obj\Debug\net10.0\ref\CraftsmanAccounts.Domain.dll
+d:\CraftsmanAccounts\CraftsmanAccounts\CraftsmanAccounts.Domain\obj\Debug\net10.0\CraftsmanAccounts.Domain.sourcelink.json

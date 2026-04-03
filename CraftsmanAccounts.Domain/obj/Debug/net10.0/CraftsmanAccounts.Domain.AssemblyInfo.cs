@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CraftsmanAccounts.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5f7f5aaf9c40aab953730b49f6ab210569189831")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5ae6058aaa2a019f7f1e12c623493c15b6e93d61")]
 [assembly: System.Reflection.AssemblyProductAttribute("CraftsmanAccounts.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CraftsmanAccounts.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

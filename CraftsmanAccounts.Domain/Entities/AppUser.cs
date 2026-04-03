@@ -28,4 +28,5 @@ public class AppUser : BaseEntity
     public ICollection<Equipment> Equipment { get; set; } = new List<Equipment>();
     public ICollection<ExpenseType> ExpenseTypes { get; set; } = new List<ExpenseType>();
     public ICollection<AccountEntry> AccountEntries { get; set; } = new List<AccountEntry>();
+    public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
 }

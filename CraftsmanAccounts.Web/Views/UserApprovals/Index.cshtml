@@ -1,0 +1,109 @@
+@model List<CraftsmanAccounts.Web.Models.AppUser>
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "موافقة المستخدمين";
+}
+
+<div class="page-header animate__animated animate__fadeIn">
+    <div class="page-header-content">
+        <h4><i class="fas fa-user-check me-2"></i> موافقة المستخدمين</h4>
+        <div class="d-flex gap-2">
+            <button class="btn btn-success btn-sm" onclick="exportApprovalsToExcel()">
+                <i class="fas fa-file-excel me-1"></i> تصدير Excel
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="printApprovals()">
+                <i class="fas fa-print me-1"></i> طباعة
+            </button>
+        </div>
+    </div>
+    <p class="text-muted mb-0">المستخدمون بانتظار الموافقة على حساباتهم</p>
+</div>
+
+@if (Model.Any())
+{
+    <div class="row g-4 animate__animated animate__fadeInUp">
+        @foreach (var user in Model)
+        {
+            <div class="col-xl-4 col-lg-6" id="userCard-@user.Id">
+                <div class="approval-card">
+                    <div class="approval-card-header">
+                        <div class="approval-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="approval-user-info">
+                            <h5>@user.FullName</h5>
+                            <span class="text-muted small">@user.CreatedAt.ToString("yyyy/MM/dd - hh:mm tt")</span>
+                        </div>
+                        <span class="status-badge status-pending">جديد</span>
+                    </div>
+                    <div class="approval-card-body">
+                        <div class="approval-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>@user.Address</span>
+                        </div>
+                        <div class="approval-detail">
+                            <i class="fas fa-phone"></i>
+                            <span dir="ltr">@user.PhoneNumber</span>
+                        </div>
+                    </div>
+                    <div class="approval-card-footer">
+                        <form asp-action="Approve" method="post" class="d-inline flex-grow-1">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@user.Id" />
+                            <button type="submit" class="btn btn-approve w-100">
+                                <i class="fas fa-check me-1"></i> قبول
+                            </button>
+                        </form>
+                        <form asp-action="Reject" method="post" class="d-inline flex-grow-1"
+                              onsubmit="return confirm('هل أنت متأكد من رفض هذا المستخدم؟ لن يظهر في أي قائمة بعد الرفض.')">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@user.Id" />
+                            <button type="submit" class="btn btn-reject w-100">
+                                <i class="fas fa-times me-1"></i> رفض
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="empty-state animate__animated animate__fadeIn">
+        <div class="empty-state-icon-success">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h5>لا يوجد طلبات معلقة</h5>
+        <p>تمت معالجة جميع طلبات التسجيل</p>
+    </div>
+}
+
+@section Scripts {
+<script>
+function exportApprovalsToExcel() {
+    var csvContent = '\uFEFF"الاسم","العنوان","رقم الهاتف","تاريخ التسجيل"\n';
+    @foreach (var user in Model)
+    {
+        @:csvContent += '"@Html.Raw(user.FullName)","@Html.Raw(user.Address)","@user.PhoneNumber","@user.CreatedAt.ToString("yyyy/MM/dd")"\n';
+    }
+    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    var link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'طلبات_الموافقة_' + new Date().toISOString().slice(0,10) + '.csv';
+    link.click();
+}
+function printApprovals() {
+    var w = window.open('','_blank');
+    w.document.write('<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>طلبات الموافقة</title><style>body{font-family:Cairo,sans-serif;direction:rtl;padding:20px}h2{text-align:center}table{width:100%;border-collapse:collapse}th,td{border:1px solid #ddd;padding:8px;text-align:right;font-size:13px}th{background:#f8f9fa;font-weight:600}tr:nth-child(even){background:#f9f9f9}</style></head><body>');
+    w.document.write('<h2>طلبات موافقة المستخدمين</h2><p style="text-align:center;color:#666">تاريخ الطباعة: ' + new Date().toLocaleDateString('ar-IQ') + '</p>');
+    w.document.write('<table><thead><tr><th>الاسم</th><th>العنوان</th><th>رقم الهاتف</th><th>تاريخ التسجيل</th></tr></thead><tbody>');
+    @foreach (var user in Model)
+    {
+        @:w.document.write('<tr><td>@Html.Raw(user.FullName)</td><td>@Html.Raw(user.Address)</td><td>@user.PhoneNumber</td><td>@user.CreatedAt.ToString("yyyy/MM/dd")</td></tr>');
+    }
+    w.document.write('</tbody></table></body></html>');
+    w.document.close(); w.focus(); setTimeout(function(){ w.print(); }, 300);
+}
+</script>
+}

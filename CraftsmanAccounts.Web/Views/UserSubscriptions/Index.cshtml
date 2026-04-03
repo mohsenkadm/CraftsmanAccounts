@@ -1,0 +1,241 @@
+@model CraftsmanAccounts.Web.Models.ViewModels.UserSubscriptionFilterViewModel
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "اشتراكات المستخدمين";
+}
+
+<div class="page-header animate__animated animate__fadeIn">
+    <div class="page-header-content">
+        <h4><i class="fas fa-credit-card me-2"></i> اشتراكات المستخدمين</h4>
+        <p class="text-muted mb-0">إدارة ومتابعة اشتراكات المستخدمين</p>
+    </div>
+</div>
+
+<!-- Filters -->
+<div class="filter-card animate__animated animate__fadeInDown">
+    <form asp-action="Index" method="get" class="filter-form">
+        <div class="row g-3 align-items-end">
+            <div class="col-lg-5 col-md-6">
+                <label class="form-label">بحث</label>
+                <div class="input-icon-wrapper">
+                    <i class="fas fa-search input-icon"></i>
+                    <input type="text" name="SearchTerm" value="@Model.SearchTerm"
+                           class="form-control form-control-custom" placeholder="ابحث بالاسم أو نوع الاشتراك..." />
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4">
+                <label class="form-label">الحالة</label>
+                <select name="Status" class="form-select form-select-custom">
+                    <option value="">الكل</option>
+                    <option value="0" selected="@(Model.Status == CraftsmanAccounts.Web.Models.SubscriptionStatus.Pending)">بانتظار الموافقة</option>
+                    <option value="1" selected="@(Model.Status == CraftsmanAccounts.Web.Models.SubscriptionStatus.Approved)">تمت الموافقة</option>
+                    <option value="2" selected="@(Model.Status == CraftsmanAccounts.Web.Models.SubscriptionStatus.Rejected)">مرفوض</option>
+                    <option value="3" selected="@(Model.Status == CraftsmanAccounts.Web.Models.SubscriptionStatus.Paid)">تم الدفع</option>
+                </select>
+            </div>
+            <div class="col-lg-2 col-md-3">
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary-custom flex-grow-1">
+                        <i class="fas fa-filter me-1"></i> تصفية
+                    </button>
+                    <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
+                        <i class="fas fa-redo"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="PageSize" value="@Model.PageSize" />
+    </form>
+</div>
+
+<!-- Results Info -->
+<div class="results-info d-flex justify-content-between align-items-center">
+    <span>عرض <strong>@Model.Subscriptions.Count</strong> من أصل <strong>@Model.TotalCount</strong> اشتراك</span>
+    <div class="d-flex gap-2">
+        <button class="btn btn-success btn-sm" onclick="exportSubscriptionsToExcel()">
+            <i class="fas fa-file-excel me-1"></i> تصدير Excel
+        </button>
+        <button class="btn btn-secondary btn-sm" onclick="printSubscriptions()">
+            <i class="fas fa-print me-1"></i> طباعة
+        </button>
+    </div>
+</div>
+
+<!-- Subscription Cards -->
+@if (Model.Subscriptions.Any())
+{
+    <div class="row g-4 animate__animated animate__fadeInUp">
+        @foreach (var sub in Model.Subscriptions)
+        {
+            <div class="col-xl-4 col-lg-6">
+                <div class="user-sub-card @GetStatusClass(sub.Status)">
+                    <div class="user-sub-header">
+                        <div class="user-sub-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="user-sub-info">
+                            <h6>@sub.UserName</h6>
+                            <span class="text-muted small">@sub.SubscriptionTypeName</span>
+                        </div>
+                        @switch (sub.Status)
+                        {
+                            case CraftsmanAccounts.Web.Models.SubscriptionStatus.Pending:
+                                <span class="status-badge status-pending">بانتظار</span>
+                                break;
+                            case CraftsmanAccounts.Web.Models.SubscriptionStatus.Approved:
+                                <span class="status-badge status-approved">تمت الموافقة</span>
+                                break;
+                            case CraftsmanAccounts.Web.Models.SubscriptionStatus.Rejected:
+                                <span class="status-badge status-rejected">مرفوض</span>
+                                break;
+                            case CraftsmanAccounts.Web.Models.SubscriptionStatus.Paid:
+                                <span class="status-badge status-paid">تم الدفع</span>
+                                break;
+                        }
+                    </div>
+                    <div class="user-sub-body">
+                        <div class="user-sub-price">
+                            <span class="price-value">@sub.Amount.ToString("N0")</span>
+                            <span class="price-unit">د.ع</span>
+                        </div>
+                        <div class="user-sub-dates">
+                            <div class="date-item">
+                                <i class="fas fa-play-circle text-success"></i>
+                                <span>البداية: @sub.StartDate.ToString("yyyy/MM/dd")</span>
+                            </div>
+                            <div class="date-item">
+                                <i class="fas fa-stop-circle text-danger"></i>
+                                <span>النهاية: @sub.EndDate.ToString("yyyy/MM/dd")</span>
+                            </div>
+                        </div>
+                        @if (sub.IsPaid)
+                        {
+                            <div class="paid-badge">
+                                <i class="fas fa-check-circle me-1"></i> تم الدفع
+                            </div>
+                        }
+                    </div>
+                    <div class="user-sub-footer">
+                        @if (sub.Status == CraftsmanAccounts.Web.Models.SubscriptionStatus.Pending)
+                        {
+                            <form asp-action="Approve" method="post" class="d-inline flex-grow-1">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@sub.Id" />
+                                <button type="submit" class="btn btn-approve btn-sm w-100">
+                                    <i class="fas fa-check me-1"></i> قبول
+                                </button>
+                            </form>
+                            <form asp-action="Reject" method="post" class="d-inline flex-grow-1">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@sub.Id" />
+                                <button type="submit" class="btn btn-reject btn-sm w-100">
+                                    <i class="fas fa-times me-1"></i> رفض
+                                </button>
+                            </form>
+                        }
+                        else if (sub.Status == CraftsmanAccounts.Web.Models.SubscriptionStatus.Approved && !sub.IsPaid)
+                        {
+                            <form asp-action="MarkAsPaid" method="post" class="w-100">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@sub.Id" />
+                                <button type="submit" class="btn btn-paid w-100">
+                                    <i class="fas fa-money-bill-wave me-1"></i> تأكيد الدفع
+                                </button>
+                            </form>
+                        }
+                        else if (sub.Status == CraftsmanAccounts.Web.Models.SubscriptionStatus.Paid)
+                        {
+                            <div class="completed-text w-100 text-center">
+                                <i class="fas fa-check-double text-success me-1"></i> مكتمل
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="completed-text w-100 text-center text-muted">
+                                <i class="fas fa-ban me-1"></i> مرفوض
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="empty-state animate__animated animate__fadeIn">
+        <i class="fas fa-credit-card"></i>
+        <h5>لا توجد اشتراكات</h5>
+        <p>لم يتم العثور على اشتراكات مطابقة لمعايير البحث</p>
+    </div>
+}
+
+<!-- Pagination -->
+@if (Model.TotalPages > 1)
+{
+    <nav class="pagination-wrapper animate__animated animate__fadeIn">
+        <ul class="pagination pagination-custom">
+            <li class="page-item @(Model.Page <= 1 ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { Model.SearchTerm, Model.Status, Page = Model.Page - 1, Model.PageSize })">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </li>
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.Page ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { Model.SearchTerm, Model.Status, Page = i, Model.PageSize })">@i</a>
+                </li>
+            }
+            <li class="page-item @(Model.Page >= Model.TotalPages ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { Model.SearchTerm, Model.Status, Page = Model.Page + 1, Model.PageSize })">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+}
+
+@functions {
+    string GetStatusClass(CraftsmanAccounts.Web.Models.SubscriptionStatus status)
+    {
+        return status switch
+        {
+            CraftsmanAccounts.Web.Models.SubscriptionStatus.Pending => "sub-status-pending",
+            CraftsmanAccounts.Web.Models.SubscriptionStatus.Approved => "sub-status-approved",
+            CraftsmanAccounts.Web.Models.SubscriptionStatus.Rejected => "sub-status-rejected",
+            CraftsmanAccounts.Web.Models.SubscriptionStatus.Paid => "sub-status-paid",
+            _ => ""
+        };
+    }
+}
+
+@section Scripts {
+<script>
+function exportSubscriptionsToExcel() {
+    var csvContent = '\uFEFF"الاسم","نوع الاشتراك","المبلغ","تاريخ البداية","تاريخ النهاية","الحالة","مدفوع"\n';
+    @foreach (var sub in Model.Subscriptions)
+    {
+        var st = sub.Status switch { CraftsmanAccounts.Web.Models.SubscriptionStatus.Pending => "بانتظار", CraftsmanAccounts.Web.Models.SubscriptionStatus.Approved => "تمت الموافقة", CraftsmanAccounts.Web.Models.SubscriptionStatus.Rejected => "مرفوض", _ => "مدفوع" };
+        @:csvContent += '"@Html.Raw(sub.UserName)","@Html.Raw(sub.SubscriptionTypeName)","@sub.Amount.ToString("N0")","@sub.StartDate.ToString("yyyy/MM/dd")","@sub.EndDate.ToString("yyyy/MM/dd")","@st","@(sub.IsPaid ? "نعم" : "لا")"\n';
+    }
+    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    var link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'اشتراكات_المستخدمين_' + new Date().toISOString().slice(0,10) + '.csv';
+    link.click();
+}
+function printSubscriptions() {
+    var w = window.open('','_blank');
+    w.document.write('<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>اشتراكات المستخدمين</title><style>body{font-family:Cairo,sans-serif;direction:rtl;padding:20px}h2{text-align:center}table{width:100%;border-collapse:collapse}th,td{border:1px solid #ddd;padding:8px;text-align:right;font-size:13px}th{background:#f8f9fa;font-weight:600}tr:nth-child(even){background:#f9f9f9}</style></head><body>');
+    w.document.write('<h2>اشتراكات المستخدمين</h2><p style="text-align:center;color:#666">تاريخ الطباعة: ' + new Date().toLocaleDateString('ar-IQ') + '</p>');
+    w.document.write('<table><thead><tr><th>الاسم</th><th>نوع الاشتراك</th><th>المبلغ</th><th>البداية</th><th>النهاية</th><th>الحالة</th></tr></thead><tbody>');
+    @foreach (var sub in Model.Subscriptions)
+    {
+        var st = sub.Status switch { CraftsmanAccounts.Web.Models.SubscriptionStatus.Pending => "بانتظار", CraftsmanAccounts.Web.Models.SubscriptionStatus.Approved => "تمت الموافقة", CraftsmanAccounts.Web.Models.SubscriptionStatus.Rejected => "مرفوض", _ => "مدفوع" };
+        @:w.document.write('<tr><td>@Html.Raw(sub.UserName)</td><td>@Html.Raw(sub.SubscriptionTypeName)</td><td>@sub.Amount.ToString("N0")</td><td>@sub.StartDate.ToString("yyyy/MM/dd")</td><td>@sub.EndDate.ToString("yyyy/MM/dd")</td><td>@st</td></tr>');
+    }
+    w.document.write('</tbody></table></body></html>');
+    w.document.close(); w.focus(); setTimeout(function(){ w.print(); }, 300);
+}
+</script>
+}

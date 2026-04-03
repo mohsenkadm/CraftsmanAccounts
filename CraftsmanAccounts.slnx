@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="CraftsmanAccounts.Api/CraftsmanAccounts.Api.csproj" />
+  <Project Path="CraftsmanAccounts.Application/CraftsmanAccounts.Application.csproj" />
+  <Project Path="CraftsmanAccounts.Domain/CraftsmanAccounts.Domain.csproj" />
+  <Project Path="CraftsmanAccounts.Infrastructure/CraftsmanAccounts.Infrastructure.csproj" />
+  <Project Path="CraftsmanAccounts.Web/CraftsmanAccounts.Web.csproj" />
+</Solution>

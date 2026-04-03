@@ -1,0 +1,196 @@
+@model CraftsmanAccounts.Web.Models.ViewModels.UserFilterViewModel
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "إدارة المستخدمين";
+}
+
+<div class="page-header animate__animated animate__fadeIn">
+    <div class="page-header-content">
+        <h4><i class="fas fa-users me-2"></i> إدارة المستخدمين</h4>
+        <p class="text-muted">عرض وإدارة جميع المستخدمين المسجلين</p>
+    </div>
+</div>
+
+<!-- Filters -->
+<div class="filter-card animate__animated animate__fadeInDown">
+    <form asp-action="Index" method="get" class="filter-form">
+        <div class="row g-3 align-items-end">
+            <div class="col-lg-4 col-md-6">
+                <label class="form-label">بحث</label>
+                <div class="input-icon-wrapper">
+                    <i class="fas fa-search input-icon"></i>
+                    <input type="text" name="SearchTerm" value="@Model.SearchTerm"
+                           class="form-control form-control-custom" placeholder="ابحث بالاسم، الهاتف، العنوان..." />
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-3">
+                <label class="form-label">الحالة</label>
+                <select name="IsActive" class="form-select form-select-custom">
+                    <option value="">الكل</option>
+                    <option value="true" selected="@(Model.IsActive == true)">نشط</option>
+                    <option value="false" selected="@(Model.IsActive == false)">غير نشط</option>
+                </select>
+            </div>
+            <div class="col-lg-2 col-md-3">
+                <label class="form-label">ترتيب حسب</label>
+                <select name="SortBy" class="form-select form-select-custom">
+                    <option value="date" selected="@(Model.SortBy == "date")">التاريخ</option>
+                    <option value="name" selected="@(Model.SortBy == "name")">الاسم</option>
+                    <option value="status" selected="@(Model.SortBy == "status")">الحالة</option>
+                </select>
+            </div>
+            <div class="col-lg-2 col-md-3">
+                <label class="form-label">الاتجاه</label>
+                <select name="SortDescending" class="form-select form-select-custom">
+                    <option value="true" selected="@(Model.SortDescending)">تنازلي</option>
+                    <option value="false" selected="@(!Model.SortDescending)">تصاعدي</option>
+                </select>
+            </div>
+            <div class="col-lg-2 col-md-3">
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary-custom flex-grow-1">
+                        <i class="fas fa-filter me-1"></i> تصفية
+                    </button>
+                    <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
+                        <i class="fas fa-redo"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="PageSize" value="@Model.PageSize" />
+    </form>
+</div>
+
+<!-- Results Info -->
+<div class="results-info d-flex justify-content-between align-items-center">
+    <span>عرض <strong>@Model.Users.Count</strong> من أصل <strong>@Model.TotalCount</strong> مستخدم</span>
+    <div class="d-flex gap-2">
+        <button class="btn btn-success btn-sm" onclick="exportTableToExcel('.table-custom', 'المستخدمين')">
+            <i class="fas fa-file-excel me-1"></i> تصدير Excel
+        </button>
+        <button class="btn btn-secondary btn-sm" onclick="printTable('.table-custom', 'إدارة المستخدمين')">
+            <i class="fas fa-print me-1"></i> طباعة
+        </button>
+    </div>
+</div>
+
+<!-- Users Table -->
+<div class="section-card animate__animated animate__fadeInUp">
+    <div class="section-body p-0">
+        @if (Model.Users.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-custom table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>الاسم الكامل</th>
+                            <th>العنوان</th>
+                            <th>رقم الهاتف</th>
+                            <th>حالة الموافقة</th>
+                            <th>النشاط</th>
+                            <th>تاريخ التسجيل</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Users)
+                        {
+                            <tr class="table-row-animated">
+                                <td>@user.Id</td>
+                                <td>
+                                    <div class="user-cell">
+                                        <div class="user-avatar-sm">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <span class="fw-medium">@user.FullName</span>
+                                    </div>
+                                </td>
+                                <td><i class="fas fa-map-marker-alt text-muted me-1"></i> @user.Address</td>
+                                <td dir="ltr" class="text-end"><i class="fas fa-phone text-muted me-1"></i> @user.PhoneNumber</td>
+                                <td>
+                                    @switch (user.ApprovalStatus)
+                                    {
+                                        case CraftsmanAccounts.Web.Models.ApprovalStatus.Pending:
+                                            <span class="status-badge status-pending">بانتظار الموافقة</span>
+                                            break;
+                                        case CraftsmanAccounts.Web.Models.ApprovalStatus.Approved:
+                                            <span class="status-badge status-approved">معتمد</span>
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    @if (user.IsActive)
+                                    {
+                                        <span class="status-badge status-active">نشط</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status-badge status-inactive">غير نشط</span>
+                                    }
+                                </td>
+                                <td>@user.CreatedAt.ToString("yyyy/MM/dd")</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <a href="@Url.Action("Edit", new { id = user.Id })" class="btn-action btn-action-edit" title="تعديل">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <form asp-action="ToggleActive" method="post" class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="id" value="@user.Id" />
+                                            <button type="submit" class="btn-action @(user.IsActive ? "btn-action-warning" : "btn-action-success")"
+                                                    title="@(user.IsActive ? "إلغاء التفعيل" : "تفعيل")">
+                                                <i class="fas @(user.IsActive ? "fa-ban" : "fa-check")"></i>
+                                            </button>
+                                        </form>
+                                        <form asp-action="Delete" method="post" class="d-inline"
+                                              onsubmit="return confirm('هل أنت متأكد من حذف هذا المستخدم؟')">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="id" value="@user.Id" />
+                                            <button type="submit" class="btn-action btn-action-danger" title="حذف">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="empty-state">
+                <i class="fas fa-users-slash"></i>
+                <h5>لا يوجد مستخدمون</h5>
+                <p>لم يتم العثور على مستخدمين مطابقين لمعايير البحث</p>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Pagination -->
+@if (Model.TotalPages > 1)
+{
+    <nav class="pagination-wrapper animate__animated animate__fadeIn">
+        <ul class="pagination pagination-custom">
+            <li class="page-item @(Model.Page <= 1 ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { Model.SearchTerm, Model.IsActive, Model.SortBy, Model.SortDescending, Page = Model.Page - 1, Model.PageSize })">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </li>
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.Page ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { Model.SearchTerm, Model.IsActive, Model.SortBy, Model.SortDescending, Page = i, Model.PageSize })">@i</a>
+                </li>
+            }
+            <li class="page-item @(Model.Page >= Model.TotalPages ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { Model.SearchTerm, Model.IsActive, Model.SortBy, Model.SortDescending, Page = Model.Page + 1, Model.PageSize })">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+}

@@ -1,0 +1,113 @@
+@model List<CraftsmanAccounts.Web.Models.SubscriptionType>
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "أنواع الاشتراكات";
+}
+
+<div class="page-header animate__animated animate__fadeIn">
+    <div class="page-header-content">
+        <h4><i class="fas fa-tags me-2"></i> أنواع الاشتراكات</h4>
+        <div class="d-flex gap-2">
+            <button class="btn btn-success btn-sm" onclick="exportSubTypesToExcel()">
+                <i class="fas fa-file-excel me-1"></i> تصدير Excel
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="printSubTypes()">
+                <i class="fas fa-print me-1"></i> طباعة
+            </button>
+            <a href="@Url.Action("Create")" class="btn btn-primary-custom btn-sm">
+                <i class="fas fa-plus me-1"></i> إضافة اشتراك جديد
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 animate__animated animate__fadeInUp">
+    @foreach (var sub in Model)
+    {
+        <div class="col-xl-3 col-lg-4 col-md-6">
+            <div class="subscription-card @(sub.IsActive ? "" : "subscription-card-inactive")">
+                <div class="subscription-card-header">
+                    <div class="subscription-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h5 class="subscription-name">@sub.Name</h5>
+                </div>
+                <div class="subscription-card-body">
+                    <div class="subscription-price">
+                        <span class="price-amount">@sub.Amount.ToString("N0")</span>
+                        <span class="price-currency">د.ع</span>
+                    </div>
+                    <div class="subscription-duration">
+                        <i class="fas fa-calendar-alt me-1"></i>
+                        @sub.DurationInDays يوم
+                    </div>
+                    <p class="subscription-details">@sub.Details</p>
+                    <div class="subscription-status">
+                        @if (sub.IsActive)
+                        {
+                            <span class="status-badge status-active">فعّال</span>
+                        }
+                        else
+                        {
+                            <span class="status-badge status-inactive">غير فعّال</span>
+                        }
+                    </div>
+                </div>
+                <div class="subscription-card-footer">
+                    <a href="@Url.Action("Edit", new { id = sub.Id })" class="btn-action btn-action-edit" title="تعديل">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <form asp-action="Delete" method="post" class="d-inline"
+                          onsubmit="return confirm('هل أنت متأكد من حذف هذا الاشتراك؟')">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@sub.Id" />
+                        <button type="submit" class="btn-action btn-action-danger" title="حذف">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (!Model.Any())
+{
+    <div class="empty-state animate__animated animate__fadeIn">
+        <i class="fas fa-tags"></i>
+        <h5>لا توجد اشتراكات</h5>
+        <p>لم يتم إضافة أي نوع اشتراك حتى الآن</p>
+        <a href="@Url.Action("Create")" class="btn btn-primary-custom mt-3">
+            <i class="fas fa-plus me-1"></i> إضافة اشتراك جديد
+        </a>
+    </div>
+}
+
+@section Scripts {
+<script>
+function exportSubTypesToExcel() {
+    var csvContent = '\uFEFF"الاسم","المبلغ","المدة (يوم)","التفاصيل","الحالة"\n';
+    @foreach (var sub in Model)
+    {
+        @:csvContent += '"@Html.Raw(sub.Name)","@sub.Amount.ToString("N0")","@sub.DurationInDays","@Html.Raw(sub.Details?.Replace("\"","\"\"") ?? "")","@(sub.IsActive ? "فعّال" : "غير فعّال")"\n';
+    }
+    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    var link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'أنواع_الاشتراكات_' + new Date().toISOString().slice(0,10) + '.csv';
+    link.click();
+}
+function printSubTypes() {
+    var w = window.open('','_blank');
+    w.document.write('<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>أنواع الاشتراكات</title><style>body{font-family:Cairo,sans-serif;direction:rtl;padding:20px}h2{text-align:center}table{width:100%;border-collapse:collapse}th,td{border:1px solid #ddd;padding:8px;text-align:right;font-size:13px}th{background:#f8f9fa;font-weight:600}tr:nth-child(even){background:#f9f9f9}</style></head><body>');
+    w.document.write('<h2>أنواع الاشتراكات</h2><p style="text-align:center;color:#666">تاريخ الطباعة: ' + new Date().toLocaleDateString('ar-IQ') + '</p>');
+    w.document.write('<table><thead><tr><th>الاسم</th><th>المبلغ</th><th>المدة (يوم)</th><th>التفاصيل</th><th>الحالة</th></tr></thead><tbody>');
+    @foreach (var sub in Model)
+    {
+        @:w.document.write('<tr><td>@Html.Raw(sub.Name)</td><td>@sub.Amount.ToString("N0")</td><td>@sub.DurationInDays</td><td>@Html.Raw(sub.Details ?? "")</td><td>@(sub.IsActive ? "فعّال" : "غير فعّال")</td></tr>');
+    }
+    w.document.write('</tbody></table></body></html>');
+    w.document.close(); w.focus(); setTimeout(function(){ w.print(); }, 300);
+}
+</script>
+}

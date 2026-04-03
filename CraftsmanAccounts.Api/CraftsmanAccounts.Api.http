@@ -1,0 +1,6 @@
+@CraftsmanAccounts.Api_HostAddress = http://localhost:5116
+
+GET {{CraftsmanAccounts.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
